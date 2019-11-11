@@ -1,4 +1,4 @@
-package com.capgemini.batatatinha.model;
+package com.capgemini.batatatinhadellivery.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;

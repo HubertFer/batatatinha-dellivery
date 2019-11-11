@@ -1,4 +1,4 @@
-package com.capgemini.batatatinha.model;
+package com.capgemini.batatatinhadellivery.model;
 
 import java.io.Serializable;
 
@@ -15,6 +15,7 @@ public class Produto implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	
 	private String titulo;
 	private Double preco;
 	private String observacao;
@@ -23,8 +24,9 @@ public class Produto implements Serializable {
 	public Produto() {
 	}
 
-	public Produto(String titulo, Double preco, String observacao, String descricao) {
+	public Produto(Long id, String titulo, Double preco, String observacao, String descricao) {
 		super();
+		this.id = id;
 		this.titulo = titulo;
 		this.preco = preco;
 		this.observacao = observacao;
@@ -70,6 +72,30 @@ public class Produto implements Serializable {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Produto other = (Produto) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
 	
 }
