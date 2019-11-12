@@ -6,8 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Endereco implements Serializable {
@@ -20,26 +20,33 @@ public class Endereco implements Serializable {
 	private String logradouro;
 	private String cep;
 	private String numero;
-	private String endereco;
+	private String bairro;
 	private String complemento;
+	private String cidade;
+
+
 	private String referencia;
 	
+	
 	@ManyToOne
+	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 	
 	public Endereco() {
 	}
 	
-	public Endereco(Long id, String logradouro, String cep, String numero, String endereco, String complemento,
-			String referencia) {
+	public Endereco(Long id, String logradouro, String cep, String numero, String bairro, String complemento,
+			String referencia, String cidade, Cliente cliente) {
 		
 		this.id = id;
 		this.logradouro = logradouro;
 		this.cep = cep;
 		this.numero = numero;
-		this.endereco = endereco;
+		this.bairro = bairro;
 		this.complemento = complemento;
 		this.referencia = referencia;
+		this.cidade = cidade;
+		this.cliente = cliente;
 	}
 	
 	public Long getId() {
@@ -74,14 +81,6 @@ public class Endereco implements Serializable {
 		this.numero = numero;
 	}
 
-	public String getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
-	}
-
 	public String getComplemento() {
 		return complemento;
 	}
@@ -104,6 +103,22 @@ public class Endereco implements Serializable {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+	
+	public String getBairro() {
+		return bairro;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
 	}
 
 	@Override
