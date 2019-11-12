@@ -1,11 +1,18 @@
 package com.capgemini.batatatinhadellivery.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 public class ItemPedido implements Serializable {
@@ -15,17 +22,22 @@ public class ItemPedido implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	Produto produto;
-	private Long itemQtd;
+	private Produto produto;
+	private int itemQtd;
 	private Double valorUnit;
+	
+	@JsonBackReference
+	@ManyToMany
+	@JoinTable(name = "PEDIDO_ITEM", joinColumns = @JoinColumn(name = "pedido_id")
+	, inverseJoinColumns = @JoinColumn(name="item_id"))
+	List <Pedido> pedido = new ArrayList<>();
 	
 	public ItemPedido() {
 	}
 	
-	public ItemPedido(Long id, Produto produto, Long itemQtd, Double valorUnit) {
+	public ItemPedido(Long id, int itemQtd, Double valorUnit) {
 		super();
 		this.id = id;
-		this.produto = produto;
 		this.itemQtd = itemQtd;
 		this.valorUnit = valorUnit;
 	}
@@ -46,11 +58,11 @@ public class ItemPedido implements Serializable {
 		this.produto = produto;
 	}
 
-	public Long getItemQtd() {
+	public int getItemQtd() {
 		return itemQtd;
 	}
 
-	public void setItemQtd(Long itemQtd) {
+	public void setItemQtd(int itemQtd) {
 		this.itemQtd = itemQtd;
 	}
 
@@ -61,4 +73,30 @@ public class ItemPedido implements Serializable {
 	public void setValorUnit(Double valorUnit) {
 		this.valorUnit = valorUnit;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ItemPedido other = (ItemPedido) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+	
 }

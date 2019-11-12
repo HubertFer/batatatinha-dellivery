@@ -4,13 +4,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+@Entity
 public class Pedido implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -21,15 +23,15 @@ public class Pedido implements Serializable {
 	
 	private Cliente cliente;
 	
-	@JsonIgnore
-	@OneToMany(mappedBy="cliente")
-	private List<ItemPedido> itemPedidos = new ArrayList<>();
+	@JsonManagedReference
+	@ManyToMany(mappedBy="pedido")
+	private List<ItemPedido> itensPedidos = new ArrayList<ItemPedido>();
+	
 
-	public Pedido(Long id, Cliente cliente, List<ItemPedido> itemPedidos) {
+	public Pedido(Long id, Cliente cliente) {
 		super();
 		this.id = id;
 		this.cliente = cliente;
-		this.itemPedidos = itemPedidos;
 	}
 
 	public Long getId() {
@@ -48,12 +50,38 @@ public class Pedido implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public List<ItemPedido> getItemPedidos() {
-		return itemPedidos;
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
-	public void setItemPedidos(List<ItemPedido> itemPedidos) {
-		this.itemPedidos = itemPedidos;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pedido other = (Pedido) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
-	
+
+	public List<ItemPedido> getItensPedidos() {
+		return itensPedidos;
+	}
+
+	public void setItensPedidos(List<ItemPedido> itensPedidos) {
+		this.itensPedidos = itensPedidos;
+	}
 }
