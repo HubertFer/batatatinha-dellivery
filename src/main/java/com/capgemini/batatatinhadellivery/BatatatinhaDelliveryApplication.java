@@ -48,7 +48,7 @@ public class BatatatinhaDelliveryApplication implements CommandLineRunner{
 		cli1.getEnderecos().addAll(Arrays.asList(end1, end2));
 		cli2.getEnderecos().addAll(Arrays.asList(end3));
 					
-		clienteRepository.saveAll(Arrays.asList(cli1));
+		clienteRepository.saveAll(Arrays.asList(cli1,cli2));
 		enderecoRepository.saveAll(Arrays.asList(end1, end2));
 		telefoneRepository.saveAll(Arrays.asList(tel1, tel2));
 	
