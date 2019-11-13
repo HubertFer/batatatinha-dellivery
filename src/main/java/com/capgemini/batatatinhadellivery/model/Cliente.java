@@ -1,6 +1,5 @@
 package com.capgemini.batatatinhadellivery.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,37 +9,42 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-public class Cliente implements Serializable {
+public class Cliente implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	
-	
 	private String nome;
 	private String cpf;
 	private String email;
-	
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "cliente", fetch = FetchType.LAZY)
+
+	@JsonIgnore
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="telefone_id")
 	private Telefone telefone;
 	
-	@OneToMany(mappedBy="cliente")
+	@OneToMany(mappedBy="cliente", cascade=CascadeType.ALL)
 	private List<Endereco> enderecos = new ArrayList<>();
 	
 	public Cliente() {
 	}
-	
-	public Cliente(Integer id, String nome, String cpf, String email) {
+
+	public Cliente(Integer id, String nome, String cpf, String email, Telefone telefone) {
+		super();
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.email = email;
+		this.telefone = telefone;
 	}
 	
 	public Integer getId() {
@@ -75,20 +79,21 @@ public class Cliente implements Serializable {
 		this.email = email;
 	}
 
-	public Telefone getTelefone() {
-		return telefone;
-	}
-
-	public void setTelefone(Telefone telefone) {
-		this.telefone = telefone;
-	}
-
 	public List<Endereco> getEnderecos() {
 		return enderecos;
 	}
 
 	public void setEnderecos(List<Endereco> enderecos) {
 		this.enderecos = enderecos;
+	}
+
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "cliente", cascade = CascadeType.ALL)
+	public Telefone getTelefone() {
+		return this.telefone;
+	}
+
+	public void setTelefone(Telefone telefone) {
+		this.telefone = telefone;
 	}
 
 	@Override
@@ -115,5 +120,4 @@ public class Cliente implements Serializable {
 			return false;
 		return true;
 	}
-
 }

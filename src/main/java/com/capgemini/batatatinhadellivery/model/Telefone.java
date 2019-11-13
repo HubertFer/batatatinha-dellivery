@@ -2,56 +2,52 @@ package com.capgemini.batatatinhadellivery.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Telefone implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@GenericGenerator(name = "generator", strategy = "foreign",
-			parameters = @Parameter(name = "property", value = "cliente"))
+	//@GenericGenerator(name = "generator", strategy = "foreign",
+			//parameters = @Parameter(name = "property", value = "cliente"))
+	
+	
 	@Id
-	@GeneratedValue(generator = "generator")
-	@Column(name = "CLIENTE_ID", unique = true, nullable = false)
-	private Long id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer id;
 	
 	private String telefoneResidencial;
 	private String telefoneComercial;
 	private String telefoneCelular;
 	
-	@JsonIgnore
-	@OneToOne
-	@PrimaryKeyJoinColumn
+	@OneToOne(cascade=CascadeType.MERGE, mappedBy="telefone")
 	private Cliente cliente;
 	
+	
+
+
 	public Telefone() {
 	}
 
-	public Telefone(Long id, String telefoneResidencial, String telefoneComercial, String telefoneCelular, Cliente cliente) {
+	public Telefone(Integer id, String telefoneResidencial, String telefoneComercial, String telefoneCelular) {
 		super();
 		this.id = id;
 		this.telefoneResidencial = telefoneResidencial;
 		this.telefoneComercial = telefoneComercial;
 		this.telefoneCelular = telefoneCelular;
-		this.cliente = cliente;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
