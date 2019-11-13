@@ -35,6 +35,9 @@ public class Cliente implements java.io.Serializable {
 	@OneToMany(mappedBy="cliente", cascade=CascadeType.ALL)
 	private List<Endereco> enderecos = new ArrayList<>();
 	
+	@OneToMany(mappedBy="cliente", cascade=CascadeType.ALL)
+	private List<Pedido> pedidos = new ArrayList<Pedido>();
+	
 	public Cliente() {
 	}
 
@@ -94,6 +97,14 @@ public class Cliente implements java.io.Serializable {
 
 	public void setTelefone(Telefone telefone) {
 		this.telefone = telefone;
+	}
+
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
 	}
 
 	@Override

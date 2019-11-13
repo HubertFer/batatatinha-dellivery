@@ -21,8 +21,10 @@ public class ItemPedido implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
+	
 	private Produto produto;
+	
 	private int itemQtd;
 	private Double valorUnit;
 	
@@ -30,23 +32,23 @@ public class ItemPedido implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "PEDIDO_ITEM", joinColumns = @JoinColumn(name = "pedido_id")
 	, inverseJoinColumns = @JoinColumn(name="item_id"))
-	List <Pedido> pedido = new ArrayList<>();
+	List <Pedido> pedidos = new ArrayList<>();
 	
 	public ItemPedido() {
 	}
 	
-	public ItemPedido(Long id, int itemQtd, Double valorUnit) {
+	public ItemPedido(Integer id, int itemQtd, Double valorUnit) {
 		super();
 		this.id = id;
 		this.itemQtd = itemQtd;
 		this.valorUnit = valorUnit;
 	}
 	
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
