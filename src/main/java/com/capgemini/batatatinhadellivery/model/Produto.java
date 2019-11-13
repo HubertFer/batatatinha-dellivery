@@ -1,11 +1,16 @@
 package com.capgemini.batatatinhadellivery.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+
+import com.capgemini.batatatinhadellivery.enums.TipoProduto;
 
 @Entity
 public class Produto implements Serializable {
@@ -14,30 +19,36 @@ public class Produto implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	
 	private String titulo;
 	private Double preco;
 	private String observacao;
 	private String descricao;
+	private TipoProduto tipoProduto;
+	
+	@ManyToMany(mappedBy = "produtos")
+	private List<Pedido> pedidos = new ArrayList<Pedido>(); 
+	
 	
 	public Produto() {
 	}
 
-	public Produto(Long id, String titulo, Double preco, String observacao, String descricao) {
+	public Produto(Integer id, String titulo, Double preco, String observacao, String descricao, TipoProduto tipo) {
 		super();
 		this.id = id;
 		this.titulo = titulo;
 		this.preco = preco;
 		this.observacao = observacao;
 		this.descricao = descricao;
+		this.tipoProduto = tipo;
 	}
 	
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -72,6 +83,14 @@ public class Produto implements Serializable {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+	
+	public TipoProduto getTipoProduto() {
+		return tipoProduto;
+	}
+
+	public void setTipoProduto(TipoProduto tipoProduto) {
+		this.tipoProduto = tipoProduto;
+	}
 
 	@Override
 	public int hashCode() {
@@ -96,6 +115,14 @@ public class Produto implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
 	}
 	
 }

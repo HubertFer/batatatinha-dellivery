@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -22,29 +25,31 @@ public class Pedido implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+	private Integer id;
 	
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 	
-	@JsonManagedReference
-	@ManyToMany(mappedBy="pedido")
-	private List<ItemPedido> itensPedidos = new ArrayList<ItemPedido>();
+	@ManyToMany
+	@JoinTable(name = "Pedido_Produto",
+		joinColumns = @JoinColumn(name = "pedido_id"),
+		inverseJoinColumns = @JoinColumn(name = "produto_id"))
+	private List<Produto> produtos = new ArrayList<Produto>();
 	
 
-	public Pedido(Long id, Cliente cliente) {
+	public Pedido(Integer id, Cliente cliente) {
 		super();
 		this.id = id;
 		this.cliente = cliente;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -83,11 +88,12 @@ public class Pedido implements Serializable {
 		return true;
 	}
 
-	public List<ItemPedido> getItensPedidos() {
-		return itensPedidos;
+	public List<Produto> getProdutos() {
+		return produtos;
 	}
 
-	public void setItensPedidos(List<ItemPedido> itensPedidos) {
-		this.itensPedidos = itensPedidos;
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
 	}
+
 }

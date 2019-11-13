@@ -7,15 +7,26 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.capgemini.batatatinhadellivery.enums.TipoProduto;
 import com.capgemini.batatatinhadellivery.model.Cliente;
 import com.capgemini.batatatinhadellivery.model.Endereco;
+import com.capgemini.batatatinhadellivery.model.Pedido;
+import com.capgemini.batatatinhadellivery.model.Produto;
 import com.capgemini.batatatinhadellivery.model.Telefone;
 import com.capgemini.batatatinhadellivery.repository.ClienteRepository;
 import com.capgemini.batatatinhadellivery.repository.EnderecoRepository;
+import com.capgemini.batatatinhadellivery.repository.PedidoRepository;
+import com.capgemini.batatatinhadellivery.repository.ProdutoRepository;
 import com.capgemini.batatatinhadellivery.repository.TelefoneRepository;
 
 @SpringBootApplication
 public class BatatatinhaDelliveryApplication implements CommandLineRunner{
+	
+	@Autowired
+	private ProdutoRepository produtoRepository;
+	
+	@Autowired
+	private PedidoRepository pedidoRepository;
 	
 	@Autowired
 	private ClienteRepository clienteRepository;
@@ -51,6 +62,18 @@ public class BatatatinhaDelliveryApplication implements CommandLineRunner{
 		clienteRepository.saveAll(Arrays.asList(cli1,cli2));
 		enderecoRepository.saveAll(Arrays.asList(end1, end2));
 		telefoneRepository.saveAll(Arrays.asList(tel1, tel2));
+		
+		Produto prod1 = new Produto(null, "batata especial", 11.90, "ketchup", "qq coisa",TipoProduto.BATATA);
+		Produto prod2 = new Produto(null, "Coca Cola", 14.90, "Cancer", "Barriga",TipoProduto.BEBIDA);
+		
+		Pedido ped1 = new Pedido(null, cli1);
+		ped1.getProdutos().addAll(Arrays.asList(prod1,prod2));
+		
+		produtoRepository.saveAll(Arrays.asList(prod1,prod2));
+		pedidoRepository.saveAll(Arrays.asList(ped1));
+		
+		
+		
 	
 	}
 }
