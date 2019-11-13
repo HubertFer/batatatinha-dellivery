@@ -4,19 +4,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Pedido implements Serializable {
@@ -32,12 +30,15 @@ public class Pedido implements Serializable {
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 	
+	@JsonBackReference
 	@ManyToMany
 	@JoinTable(name = "Pedido_Produto",
 		joinColumns = @JoinColumn(name = "pedido_id"),
 		inverseJoinColumns = @JoinColumn(name = "produto_id"))
 	private List<Produto> produtos = new ArrayList<Produto>();
 	
+	public Pedido() {
+	}
 
 	public Pedido(Integer id, Cliente cliente) {
 		super();
@@ -60,8 +61,6 @@ public class Pedido implements Serializable {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-
-
 
 	@Override
 	public int hashCode() {

@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 import com.capgemini.batatatinhadellivery.enums.TipoProduto;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Produto implements Serializable {
@@ -27,6 +28,7 @@ public class Produto implements Serializable {
 	private String descricao;
 	private TipoProduto tipoProduto;
 	
+	@JsonManagedReference
 	@ManyToMany(mappedBy = "produtos")
 	private List<Pedido> pedidos = new ArrayList<Pedido>(); 
 	

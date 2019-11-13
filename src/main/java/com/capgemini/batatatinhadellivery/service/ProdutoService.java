@@ -1,5 +1,6 @@
 package com.capgemini.batatatinhadellivery.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,12 @@ public class ProdutoService {
 	@Autowired
 	private ProdutoRepository repo;
 
-	public Produto buscar(Long id) {
+	public Produto find(Integer id) {
 		Optional<Produto> obj = repo.findById(id);
 		return obj.orElse(null);
+	}
+	
+	public List<Produto> findAll(){
+		return repo.findAll();
 	}
 }
